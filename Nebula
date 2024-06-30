@@ -1,0 +1,263 @@
+getgenv().SecureMode = true
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:FindFirstChildOfClass("Humanoid")
+local jumpConnection -- To store the jump connection
+
+-- Function to enable or disable infinite jump
+local function enableInfiniteJump(enabled)
+    if humanoid then
+        if enabled then
+            jumpConnection = humanoid:GetPropertyChangedSignal("Jump"):Connect(function()
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end)
+        else
+            if jumpConnection then
+                jumpConnection:Disconnect()
+            end
+        end
+    end
+end
+
+local Window = Rayfield:CreateWindow({
+    Name = "Nebula Hub | @Wenifying#0",
+    LoadingTitle = "GUI Loading..",
+    LoadingSubtitle = "by Wenifying",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = nil, -- Customize folder name if needed
+       FileName = "Nebula Hub"
+    },
+    Discord = {
+       Enabled = true,
+       Invite = "jwSDUCNMZc",
+       RememberJoins = true
+    },
+    KeySystem = true,
+    KeySettings = {
+       Title = "Nebula Hub | @Wenifying#0",
+       Subtitle = "Key System",
+       Note = "Join the discord! (.gg/jwSDUCNMZc)",
+       FileName = "Key",
+       SaveKey = true,
+       GrabKeyFromSite = false,
+       Key = {"ILOVEHER"} -- Example key, customize as needed
+    }
+})
+
+local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Main shits")
+
+local Paragraph = Tab:CreateParagraph({
+    Title = "Mains",
+    Content = "Go kill those niggas"
+})
+
+
+local Button = Tab:CreateButton({
+    Name = "Aimbot",
+    Callback = function()
+        -- The function that takes place when the button is pressed
+        local t = game:GetService('Players').LocalPlayer
+        local u = workspace.CurrentCamera
+        local v = game:GetService('Players')
+        local w = v.LocalPlayer
+        local x = w:GetMouse()
+        local y = t:GetMouse()
+        local z = v
+
+        function FindNearest(A)
+            local B = 1000000
+            local C = nil
+            for n, r in pairs(v:GetPlayers()) do
+                if r.Character and r.Name ~= t.Name and r.Character:FindFirstChild('UpperTorso') then
+                    local D, E = u:WorldToScreenPoint(r.Character.UpperTorso.Position)
+                    local F = y.UnitRay:Distance(r.Character.UpperTorso.Position)
+                    if F < B and E then
+                        B = F
+                        C = r
+                    end
+                end
+            end
+            return C
+        end
+
+        x.Button2Down:Connect(function(G)
+            targplr = FindNearest(Vector3.new(y.UnitRay.Origin, y.UnitRay.Direction))
+            rightClick = true
+        end)
+
+        x.Button2Up:Connect(function(G)
+            rightClick = false
+        end)
+
+        _G.LA = game:service'RunService'.Stepped:Connect(function()
+            if rightClick and t.Character then
+                if targplr.Character and targplr.Character:FindFirstChild('Head') then
+                    u.CFrame = CFrame.new(u.CFrame.Position, targplr.Character.Head.Position)
+                end
+            end
+        end)
+    end,
+})
+
+local Button = Tab:CreateButton({
+    Name = "ESP",
+    Callback = function()
+        -- ESP Settings
+        local FillColor = Color3.fromRGB(175, 25, 255)
+        local DepthMode = "AlwaysOnTop"
+        local FillTransparency = 0.5
+        local OutlineColor = Color3.fromRGB(255, 255, 255)
+        local OutlineTransparency = 0
+
+        local CoreGui = game:GetService("CoreGui")
+        local Players = game:GetService("Players")
+        local lp = Players.LocalPlayer
+        local connections = {}
+
+        local Storage = Instance.new("Folder")
+        Storage.Parent = CoreGui
+        Storage.Name = "Highlight_Storage"
+
+        local function Highlight(plr)
+            local Highlight = Instance.new("Highlight")
+            Highlight.Name = plr.Name
+            Highlight.FillColor = FillColor
+            Highlight.DepthMode = DepthMode
+            Highlight.FillTransparency = FillTransparency
+            Highlight.OutlineColor = OutlineColor
+            Highlight.OutlineTransparency = 0
+            Highlight.Parent = Storage
+
+            local plrchar = plr.Character
+            if plrchar then
+                Highlight.Adornee = plrchar
+            end
+
+            connections[plr] = plr.CharacterAdded:Connect(function(char)
+                Highlight.Adornee = char
+            end)
+        end
+
+        Players.PlayerAdded:Connect(Highlight)
+        for _, v in next, Players:GetPlayers() do
+            Highlight(v)
+        end
+
+        Players.PlayerRemoving:Connect(function(plr)
+            local plrname = plr.Name
+            if Storage[plrname] then
+                Storage[plrname]:Destroy()
+            end
+            if connections[plr] then
+                connections[plr]:Disconnect()
+            end
+        end)
+    end,
+})
+
+local Tab = Window:CreateTab("Fun Stuff", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Fun shits")
+
+local Paragraph = Tab:CreateParagraph({
+    Title = "Fun Shits",
+    Content = "GO CRAZY NIGGA"
+})
+
+local Toggle = Tab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "Toggle_InfiniteJump", -- Unique identifier for the configuration file
+    Callback = function(Value)
+        enableInfiniteJump(Value)
+    end,
+})
+
+-- Assuming you have a GUI framework setup like Tab
+local humanoid = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+
+-- Check if humanoid exists before proceeding
+if humanoid then
+    -- Adjusting Jump Height Slider
+    local JumpHeightSlider = Tab:CreateSlider({
+        Name = "JumpHeight",
+        Range = {0, 1000},  -- Adjusted to range from 0 to 1000
+        Increment = 50,     -- Adjusted increment for smoother adjustments
+        Suffix = "Jump Height",
+        CurrentValue = 50,  -- Set to a standard jump height value
+        Flag = "Slider_JumpHeight", -- Unique identifier for the configuration file
+        Callback = function(Value)
+            humanoid.JumpPower = Value
+        end,
+    })
+
+    -- Adjusting Speed Slider
+    local SpeedSlider = Tab:CreateSlider({
+        Name = "Speed",
+        Range = {0, 100},
+        Increment = 10,
+        Suffix = "Speed",
+        CurrentValue = 16,  -- Set to a standard walking speed value
+        Flag = "Slider_Speed", -- Unique identifier for the configuration file
+        Callback = function(Value)
+            humanoid.WalkSpeed = Value
+        end,
+    })
+
+    -- Initialize with default values
+    humanoid.JumpPower = JumpHeightSlider.CurrentValue
+    humanoid.WalkSpeed = SpeedSlider.CurrentValue
+end
+
+-- Initialize infinite jump if toggle is initially enabled
+enableInfiniteJump(Toggle.CurrentValue)
+
+-- Listen for player character changes
+player.CharacterAdded:Connect(function(newCharacter)
+    character = newCharacter
+    humanoid = character:FindFirstChildOfClass("Humanoid")
+    enableInfiniteJump(Toggle.CurrentValue)
+end)
+
+-- Listen for toggle state changes through key press (optional)
+UIS.InputBegan:Connect(function(input, processed)
+    if not processed and input.KeyCode == Enum.KeyCode.X then
+        Toggle:SetValue(not Toggle.CurrentValue)
+    end
+end)
+
+local Button = Tab:CreateButton({
+    Name = "Discord! (Press F9)",
+    Callback = function()
+    print('discord.gg/jwSDUCNMZc')
+    end,
+ })
+
+ local Tab = Window:CreateTab("Credits", 4483362458) -- Title, Image
+local Section = Tab:CreateSection("Special thanks to all of these developers")
+
+ -- Assuming you have defined your `Paragraph` variable already for Wenifying's credit
+local Paragraph = Tab:CreateParagraph({
+    Title = "Developer",
+    Content = "Wenifying | Programming + Designing"
+})
+
+local Paragraph = Tab:CreateParagraph({
+    Title = "GUI Designer",
+    Content = "Hansen | Designing"
+})
+
+
+-- Adding Clifford as a BETA Tester
+local Paragraph2 = Tab:CreateParagraph({
+    Title = "Contributors",
+    Content = "Clifford  | Contributors"
+})
+
+
+Rayfield:LoadConfiguration()
