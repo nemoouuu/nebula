@@ -253,6 +253,11 @@ local Paragraph2 = Tab:CreateParagraph({
     Content = "Clifford  | Contributors"
 })
 
+local Paragraph = Tab:CreateParagraph({
+    Title = "Pemberi Bokep",
+    Content = "Felix | Pemberi Bokep"
+})
+
 local Button = Tab:CreateButton({
     Name = "Discord! (Press F9)",
     Callback = function()
