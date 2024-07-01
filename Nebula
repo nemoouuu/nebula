@@ -231,12 +231,6 @@ UIS.InputBegan:Connect(function(input, processed)
     end
 end)
 
-local Button = Tab:CreateButton({
-    Name = "Discord! (Press F9)",
-    Callback = function()
-    print('discord.gg/jwSDUCNMZc')
-    end,
- })
 
  local Tab = Window:CreateTab("Credits", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("Special thanks to all of these developers")
@@ -259,5 +253,11 @@ local Paragraph2 = Tab:CreateParagraph({
     Content = "Clifford  | Contributors"
 })
 
+local Button = Tab:CreateButton({
+    Name = "Discord! (Press F9)",
+    Callback = function()
+    print('discord.gg/jwSDUCNMZc')
+    end,
+ })
 
 Rayfield:LoadConfiguration()
