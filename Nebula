@@ -45,7 +45,7 @@ local Window = Rayfield:CreateWindow({
        FileName = "Key",
        SaveKey = true,
        GrabKeyFromSite = false,
-       Key = {"ILOVEHER"} -- Example key, customize as needed
+       Key = {"NebulaHub2024"} -- Example key, customize as needed
     }
 })
 
