@@ -26,7 +26,7 @@ end
 local Window = Rayfield:CreateWindow({
     Name = "Nebula Hub | @Wenifying#0",
     LoadingTitle = "GUI Loading..",
-    LoadingSubtitle = "by Wenifying",
+    LoadingSubtitle = "by Nebula Hardwork",
     ConfigurationSaving = {
        Enabled = true,
        FolderName = nil, -- Customize folder name if needed
@@ -41,69 +41,104 @@ local Window = Rayfield:CreateWindow({
     KeySettings = {
        Title = "Nebula Hub | @Wenifying#0",
        Subtitle = "Key System",
-       Note = "Join the discord! (.gg/jwSDUCNMZc)",
+       Note = "Join the discord for the key! (.gg/jwSDUCNMZc)",
        FileName = "Key",
        SaveKey = true,
        GrabKeyFromSite = false,
-       Key = {"ILOVEHER"} -- Example key, customize as needed
+       Key = {"NebulaHub2024"} -- Example key, customize as needed
     }
 })
+
+local Tab = Window:CreateTab("Info", 18302197168) -- Title, Image
+
+-- Function to get the player's name
+local function getPlayerName()
+    local player = game.Players.LocalPlayer
+    if player then
+       return player.Name
+    else
+       return "Player" -- Default name if player is not found (usually won't happen in LocalPlayer context)
+    end
+ end
+ 
+ -- Create a paragraph with dynamic player name in purple color
+ local Paragraph = Tab:CreateParagraph({
+    Title = "Welcome, " .. getPlayerName() .. "!",
+    TitleColor = Color3.fromRGB(175, 25, 255), -- Purple color
+    Content = "Welcome to Nebula Hub. The best free universal aimbot script."
+ })
+ 
+ -- Update the paragraph title when the player's name changes
+ game.Players.LocalPlayer.Changed:Connect(function(property)
+    if property == "Name" then
+       Paragraph:SetTitle("Welcome, " .. getPlayerName() .. "!")
+    end
+ end)
+ 
+ local Paragraph = Tab:CreateParagraph({Title = "Version", Content = "V1.0.0 (02/07/24)"})
+
+ local Paragraph = Tab:CreateParagraph({Title = "Join our Discord for support", Content = ".gg/jwSDUCNMZc"})
+
+ local Dropdown = Tab:CreateDropdown({
+    Name = "Credits",
+    Options = {"Owner - Wenifying & Kyoko","Devs - Hansen","Contributor - Clifford","Porn Addict - Felix"},
+    CurrentOption = {"Open to see"},
+    MultipleOptions = true,
+    Flag = "Dropdown1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Option)
+    -- The function that takes place when the selected option is changed
+    -- The variable (Option) is a table of strings for the current selected options
+    end,
+ })
 
 local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("Main shits")
 
-local Paragraph = Tab:CreateParagraph({
-    Title = "Mains",
-    Content = "Go kill those niggas"
-})
-
-
 local Button = Tab:CreateButton({
     Name = "Aimbot",
     Callback = function()
-        -- The function that takes place when the button is pressed
-        local t = game:GetService('Players').LocalPlayer
-        local u = workspace.CurrentCamera
-        local v = game:GetService('Players')
-        local w = v.LocalPlayer
-        local x = w:GetMouse()
-        local y = t:GetMouse()
-        local z = v
-
-        function FindNearest(A)
-            local B = 1000000
-            local C = nil
-            for n, r in pairs(v:GetPlayers()) do
-                if r.Character and r.Name ~= t.Name and r.Character:FindFirstChild('UpperTorso') then
-                    local D, E = u:WorldToScreenPoint(r.Character.UpperTorso.Position)
-                    local F = y.UnitRay:Distance(r.Character.UpperTorso.Position)
-                    if F < B and E then
-                        B = F
-                        C = r
+        g.MouseButton1Click:connect(function()
+            local t = game:GetService('Players').LocalPlayer
+            local u = workspace.CurrentCamera
+            local v = game:GetService('Players')
+            local w = v.LocalPlayer
+            local x = w:GetMouse()
+            local y = t:GetMouse()
+            local z = v
+            
+            function FindNearest(A)
+                local B = 1000000
+                local C = nil
+                for n, r in pairs(v:GetPlayers()) do
+                    if r.Character and r.Name ~= t.Name and r.Character:FindFirstChild('UpperTorso') then
+                        local D, E = u:WorldToScreenPoint(r.Character.UpperTorso.Position)
+                        local F = y.UnitRay:Distance(r.Character.UpperTorso.Position)
+                        if F < B and E then
+                            B = F
+                            C = r
+                        end
                     end
                 end
+                return C
             end
-            return C
-        end
-
-        x.Button2Down:Connect(function(G)
-            targplr = FindNearest(Vector3.new(y.UnitRay.Origin, y.UnitRay.Direction))
-            rightClick = true
-        end)
-
-        x.Button2Up:Connect(function(G)
-            rightClick = false
-        end)
-
-        _G.LA = game:service'RunService'.Stepped:Connect(function()
-            if rightClick and t.Character then
-                if targplr.Character and targplr.Character:FindFirstChild('Head') then
-                    u.CFrame = CFrame.new(u.CFrame.Position, targplr.Character.Head.Position)
+            
+            x.Button2Down:Connect(function(G)
+                targplr = FindNearest(Vector3.new(y.UnitRay.Origin, y.UnitRay.Direction))
+                rightClick = true
+            end)
+            
+            x.Button2Up:Connect(function(G)
+                rightClick = false
+            end)
+            
+            _G.LA = game:service'RunService'.Stepped:Connect(function()
+                if rightClick and t.Character then
+                    if targplr.Character and targplr.Character:FindFirstChild('Head') then
+                        u.CFrame = CFrame.new(u.CFrame.Position, targplr.Character.Head.Position)
+                    end
                 end
-            end
-        end)
-    end,
-})
+            end)
+        end)        
 
 local Button = Tab:CreateButton({
     Name = "ESP",
@@ -161,13 +196,49 @@ local Button = Tab:CreateButton({
     end,
 })
 
+local Toggle = Tab:CreateToggle({
+    Name = "Always Bright",  -- Updated toggle name
+    CurrentValue = false,
+    Flag = "AmbientLightToggle",  -- Unique flag for configuration saving
+    Callback = function(Value)
+        -- Function that runs when the toggle is pressed
+        if Value then
+            -- Function to adjust ambient lighting based on current time
+            local function adjustAmbient()
+                local currentTime = game:GetService("Lighting"):GetMinutesAfterMidnight()
+                local isDark = currentTime < 300 or currentTime > 1300  -- Define your own dark hours here
+
+                if isDark then
+                    game:GetService("Lighting").Ambient = Color3.fromRGB(200, 200, 200)  -- Bright ambient color when it's dark
+                    game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(200, 200, 200)  -- Bright outdoor ambient color when it's dark
+                else
+                    game:GetService("Lighting").Ambient = Color3.fromRGB(127, 127, 127)  -- Default ambient color during daytime
+                    game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(127, 127, 127)  -- Default outdoor ambient color during daytime
+                end
+            end
+
+            -- Call the adjustAmbient function periodically
+            while Value do
+                adjustAmbient()
+                wait(10)  -- Adjust the wait time as needed
+            end
+        else
+            -- Handle the case when the toggle is turned off, if needed
+            -- For ambient lighting, you might want to reset to a default state or turn off the periodic adjustment
+        end
+    end,
+})
+
+-- Add the button for Nebula Flying GUI
+local Button = Tab:CreateButton({
+    Name = "Nebula Flying GUI",
+    Callback = function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/Wenifying/Beta/main/NebulaFlyingGUI'))()
+    end,
+})
+
 local Tab = Window:CreateTab("Fun Stuff", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("Fun shits")
-
-local Paragraph = Tab:CreateParagraph({
-    Title = "Fun Shits",
-    Content = "GO CRAZY NIGGA"
-})
 
 local Toggle = Tab:CreateToggle({
     Name = "Infinite Jump",
@@ -229,37 +300,6 @@ UIS.InputBegan:Connect(function(input, processed)
 end)
 
 
- local Tab = Window:CreateTab("Credits", 4483362458) -- Title, Image
-local Section = Tab:CreateSection("Special thanks to all of these developers")
 
- -- Assuming you have defined your `Paragraph` variable already for Wenifying's credit
-local Paragraph = Tab:CreateParagraph({
-    Title = "Developer",
-    Content = "Wenifying | Programming + Designing"
-})
-
-local Paragraph = Tab:CreateParagraph({
-    Title = "GUI Designer",
-    Content = "Hansen | Designing"
-})
-
-
--- Adding Clifford as a BETA Tester
-local Paragraph2 = Tab:CreateParagraph({
-    Title = "Contributors",
-    Content = "Clifford  | Contributors"
-})
-
-local Paragraph = Tab:CreateParagraph({
-    Title = "Pemberi Bokep",
-    Content = "Felix | Pemberi Bokep"
-})
-
-local Button = Tab:CreateButton({
-    Name = "Discord! (Press F9)",
-    Callback = function()
-    print('discord.gg/jwSDUCNMZc')
-    end,
- })
-
+ Rayfield:Destroy()
 Rayfield:LoadConfiguration()
