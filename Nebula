@@ -26,7 +26,7 @@ end
 local Window = Rayfield:CreateWindow({
     Name = "Nebula Hub | @Wenifying#0",
     LoadingTitle = "GUI Loading..",
-    LoadingSubtitle = "by Nebula Hardwork",
+    LoadingSubtitle = "by Wenifying",
     ConfigurationSaving = {
        Enabled = true,
        FolderName = nil, -- Customize folder name if needed
@@ -41,7 +41,7 @@ local Window = Rayfield:CreateWindow({
     KeySettings = {
        Title = "Nebula Hub | @Wenifying#0",
        Subtitle = "Key System",
-       Note = "Join the discord for the key! (.gg/jwSDUCNMZc)",
+       Note = "Join the discord! (.gg/jwSDUCNMZc)",
        FileName = "Key",
        SaveKey = true,
        GrabKeyFromSite = false,
@@ -97,48 +97,49 @@ local Section = Tab:CreateSection("Main shits")
 local Button = Tab:CreateButton({
     Name = "Aimbot",
     Callback = function()
-        g.MouseButton1Click:connect(function()
-            local t = game:GetService('Players').LocalPlayer
-            local u = workspace.CurrentCamera
-            local v = game:GetService('Players')
-            local w = v.LocalPlayer
-            local x = w:GetMouse()
-            local y = t:GetMouse()
-            local z = v
-            
-            function FindNearest(A)
-                local B = 1000000
-                local C = nil
-                for n, r in pairs(v:GetPlayers()) do
-                    if r.Character and r.Name ~= t.Name and r.Character:FindFirstChild('UpperTorso') then
-                        local D, E = u:WorldToScreenPoint(r.Character.UpperTorso.Position)
-                        local F = y.UnitRay:Distance(r.Character.UpperTorso.Position)
-                        if F < B and E then
-                            B = F
-                            C = r
-                        end
+        -- The function that takes place when the button is pressed
+        local t = game:GetService('Players').LocalPlayer
+        local u = workspace.CurrentCamera
+        local v = game:GetService('Players')
+        local w = v.LocalPlayer
+        local x = w:GetMouse()
+        local y = t:GetMouse()
+        local z = v
+
+        function FindNearest(A)
+            local B = 1000000
+            local C = nil
+            for n, r in pairs(v:GetPlayers()) do
+                if r.Character and r.Name ~= t.Name and r.Character:FindFirstChild('UpperTorso') then
+                    local D, E = u:WorldToScreenPoint(r.Character.UpperTorso.Position)
+                    local F = y.UnitRay:Distance(r.Character.UpperTorso.Position)
+                    if F < B and E then
+                        B = F
+                        C = r
                     end
                 end
-                return C
             end
-            
-            x.Button2Down:Connect(function(G)
-                targplr = FindNearest(Vector3.new(y.UnitRay.Origin, y.UnitRay.Direction))
-                rightClick = true
-            end)
-            
-            x.Button2Up:Connect(function(G)
-                rightClick = false
-            end)
-            
-            _G.LA = game:service'RunService'.Stepped:Connect(function()
-                if rightClick and t.Character then
-                    if targplr.Character and targplr.Character:FindFirstChild('Head') then
-                        u.CFrame = CFrame.new(u.CFrame.Position, targplr.Character.Head.Position)
-                    end
+            return C
+        end
+
+        x.Button2Down:Connect(function(G)
+            targplr = FindNearest(Vector3.new(y.UnitRay.Origin, y.UnitRay.Direction))
+            rightClick = true
+        end)
+
+        x.Button2Up:Connect(function(G)
+            rightClick = false
+        end)
+
+        _G.LA = game:service'RunService'.Stepped:Connect(function()
+            if rightClick and t.Character then
+                if targplr.Character and targplr.Character:FindFirstChild('Head') then
+                    u.CFrame = CFrame.new(u.CFrame.Position, targplr.Character.Head.Position)
                 end
-            end)
-        end)        
+            end
+        end)
+    end,
+})
 
 local Button = Tab:CreateButton({
     Name = "ESP",
@@ -299,7 +300,4 @@ UIS.InputBegan:Connect(function(input, processed)
     end
 end)
 
-
-
- Rayfield:Destroy()
 Rayfield:LoadConfiguration()
