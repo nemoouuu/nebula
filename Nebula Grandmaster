@@ -50,7 +50,7 @@ local repo = 'https://raw.githubusercontent.com/Notaskid/storage/main/'
 
 
 function loadscript()
-local scriptversion = "2.1.2 Grandmaster"
+local scriptversion = "2.1.2"
 local invite = "U9c2ksfDqn"
 
 local rainbowcolor = Color3.new(1,1,1)
