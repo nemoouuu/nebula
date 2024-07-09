@@ -50,7 +50,7 @@ local repo = 'https://raw.githubusercontent.com/Notaskid/storage/main/'
 
 
 function loadscript()
-local scriptversion = "2.1.2"
+local scriptversion = "2.1.2 Gold"
 local invite = "U9c2ksfDqn"
 
 local rainbowcolor = Color3.new(1,1,1)
@@ -134,7 +134,6 @@ local Tabs = {
     ESP = Window:AddTab('Visuals'),
     Scripts = Window:AddTab('Scripts'),
     Scripts2 = Window:AddTab('Misc'),
-    Teleports = Window:AddTab('Teleports'),
     Settings = Window:AddTab('Settings'),
 }
 
@@ -1199,7 +1198,7 @@ end)
 Library:SetWatermarkVisibility(false)
 Library.KeybindFrame.Visible = false; -- todo: add a function for this
 
-Library:SetWatermark('TAY.XYZ')
+Library:SetWatermark('khurf.xyz')
 
 
 
@@ -1582,8 +1581,11 @@ ThemeManager:ApplyToTab(Tabs.Settings)
 
 local Credits = Tabs.Settings:AddRightGroupbox('Credits')
 
-Credits:AddLabel('Fying (Khurf)#6279 - owner/developer')
-Credits:AddLabel('wussownsfoxxy#1241 - HELPED A BIT WITH ESP')
+Credits:AddLabel('khurf.xyz - owner')
+Credits:AddLabel('kyoko - owner')
+Credits:AddLabel('Hansenyy - dev')
+Credits:AddLabel('Clifford - contributor')
+Credits:AddLabel('felix - contributor')
 
 
 
@@ -1595,7 +1597,7 @@ Toggles.togglewatermark:OnChanged(function()
     Library:SetWatermarkVisibility(Toggles.togglewatermark.Value)
 end)
 
-notify('TAY.XYZ loaded in '..tostring(tick() - load)..'ms')
+notify('khurf.xyz loaded in '..tostring(tick() - load)..'ms')
 
 
 
